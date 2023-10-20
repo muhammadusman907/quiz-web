@@ -355,6 +355,8 @@ if (html.length == index){
    }
    else{
     passFail.innerHTML = "Congrulation , You Passed"
+    progressDiv.style.backgroundColor = "green" ;
+
    }
 }
   // ************************************************
@@ -364,7 +366,7 @@ if (html.length == index){
     <h3>${html[index].question}</h3>
     `
     // ************************************************
-    // ================ ANSWER RENDER==================
+    // ================ ANSWER RENDER ==================
     // ************************************************
 ans1.innerText = `${html[index].option1}`
 ans2.innerText = `${html[index].option2}`
