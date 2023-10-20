@@ -101,9 +101,20 @@ body{
 /* ===============================sign up ========================== */
 /* ================================================================= */
 .login-container{
-    margin-top: 50px;
-    height: 450px;
-    width: 50%;
+    margin-top:50px !important;
+    height: 75vh;
+    width: 60%;
     background-color: #fff;
-    border: solid;
+    /* border: solid; */
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login-container-child{
+    width: 50%;
+
+}
+.login-container-child button{
+    margin-left: auto;
 }
