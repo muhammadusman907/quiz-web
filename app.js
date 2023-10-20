@@ -350,6 +350,7 @@ if (html.length == index){
     progressDiv.style.width = total + "%";
     progressDiv.innerHTML = total + "%";
    if(total < 60 ){
+    progressDiv.style.backgroundColor = "red" ;
        passFail.innerHTML = "Sorry You Faild"
    }
    else{
