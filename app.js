@@ -297,101 +297,194 @@ var css = [
 ]
 
 
-var radioInput = document.getElementsByName("answers") ;
+var radioInput = document.getElementsByName("answers");
 var questionId = document.getElementById("question");
-var ans1 = document.getElementById ("ans1");
-var ans2 = document.getElementById ("ans2");
-var ans3 = document.getElementById ("ans3");
-var nextBtn = document.getElementById("next-btn")
+var ans1 = document.getElementById("ans1");
+var ans2 = document.getElementById("ans2");
+var ans3 = document.getElementById("ans3");
+var nextBtn = document.getElementById("next-btn");
+
+var minute = document.getElementById("minut");
+var second = document.getElementById("second");
+var totalQuestion = document.getElementById("total-question");
+var correctQuestion = document.getElementById("correct-question");
+var questionAnswerShow = document.getElementById("question-answer");
+var result = document.getElementById("result");
+var passFail = document.getElementById("pass-fail");
+//  ================== sign up page=============
+var userName = document.getElementById("user-name");
+var signupEmail = document.getElementById("signup-email");
+var signupPassword = document.getElementById("signup-password");
+// ================ regex ====================
+var regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+// =====================login =========================
+var loginEmail = document.getElementById("login-email")
+var loginPassword = document.getElementById("login-password")
+
 var index = 0;
-var score = 0 ;
-var minute = document.getElementById("minut")
-var second = document.getElementById("second")
-var totalQuestion = document.getElementById("total-question")
-var correctQuestion = document.getElementById("correct-question")
-var questionAnswerShow = document.getElementById("question-answer")
-var result = document.getElementById("result")
-var passFail = document.getElementById("pass-fail")
-
-
-console.log(second)
-var min = 1;
+var score = 0;
 var sec = 59;
-function next (){
- 
-
-for (var i = 0 ; i < radioInput.length ; i++){
-    
-    console.log(radioInput[i].checked)
-    if(radioInput[i].checked){
-        var userAnswer = html[index - 1][`option${radioInput[i].value}`]
-        nextBtn.disabled = true;
-        sec = 59;
-        min = 1;
-        console.log(nextBtn)
-        console.log(userAnswer )
-        console.log(html[index - 1].correctOption)
-        radioInput[i].checked = false ;
-        
-        if(html[index - 1].correctOption === userAnswer ){
-            score++
-            console.log(score)
+var min = 1;
+// =======================================================
+// =================== signup function====================
+// =======================================================
+function signup() {
+    if (userName.value.trim() !== "" && signupEmail.value.trim() !== "" && signupPassword.value.trim() !== "") {
+        if (signupEmail.value.toLowerCase().match(regex)) {
+            if (signupPassword.value.length < 7) {
+                alert(" passwod chota hai")
+            }
+            else {
+                var obj = {
+                    user_name: userName.value,
+                    signup_email: signupEmail.value,
+                    signup_password: signupPassword.value,
+                }
+                console.log(obj)
+                var userDataStr = JSON.stringify(obj);
+                localStorage.setItem("userData", userDataStr);
+                location.href = "./login.html"
+                // console.log(userName.value) // ================ user name
+                // console.log(signupEmail.value);// ============= user email
+                // console.log(signupPassword.value); ============ user password
+            }
+        }
+        else {
+            alert("email incorrect")
         }
     }
+    else {
+        alert("not found")
+    }
 }
-console.log(html.length - 1)
-if (html.length == index){
-    questionAnswerShow.style.display = "none";
-    result.style.display = "block";
-    correctQuestion.innerHTML = score;
-    totalQuestion.innerHTML = html.length; 
-    var total = Math.round((score / html.length ) * 100) ;
-    var progressDiv = document.getElementById("progress-div");
-    progressDiv.style.width = total + "%";
-    progressDiv.innerHTML = total + "%";
-   if(total < 60 ){
-    progressDiv.style.backgroundColor = "red" ;
-       passFail.innerHTML = "Sorry You Faild"
-   }
-   else{
-    passFail.innerHTML = "Congrulation , You Passed"
-    progressDiv.style.backgroundColor = "green" ;
+// ========================= login ======================== //
 
-   }
+function login() {
+    if (loginPassword.value.trim() !== "" && loginEmail.value.trim() !== "") {
+        if (loginEmail.value.toLowerCase().match(regex)) {
+            if (loginPassword.value.length < 7) {
+                alert(" passwod chota hai")
+
+            }
+            else {
+                console.log(loginEmail.value);
+                console.log(loginPassword.value);
+                var userDataParse = JSON.parse(localStorage.getItem("userData"))
+                console.log(userDataParse)
+                if (loginEmail.value === userDataParse.signup_email) {
+                    if (loginPassword.value === userDataParse.signup_password) {
+                        alert("login successfully")
+                        location.href = "./quiz.html"
+                    }
+                    else {
+                        alert("incorrect password")
+                    }
+                } else {
+                    alert("email not found")
+                }
+
+            }
+        }
+        else {
+            alert("email incorrecrt")
+        }
+    }
+    else {
+        alert("input not filled")
+    }
 }
-  // ************************************************
-  // ================ QUESTION RENDER==================
- // ************************************************
-    questionId.innerHTML = `
+
+
+
+function next() {
+    for (var i = 0; i < radioInput.length; i++) {
+
+        console.log(radioInput[i].checked) //========= checked true input radio ===========//
+        if (radioInput[i].checked) {
+            var userAnswer = html[index - 1][`option${radioInput[i].value}`]
+            nextBtn.disabled = true;
+            sec = 59;
+            min = 1;
+            // =====================================================//
+            // console.log(nextBtn) //=========== nextbtn ==========//
+            // console.log(userAnswer) //======= user answer =======//
+            // =====================================================//
+
+            console.log(html[index - 1].correctOption)
+            radioInput[i].checked = false;
+            //======================================================== 
+            // =================== user answer correct answer match //
+            //======================================================== 
+
+            if (html[index - 1].correctOption === userAnswer) {
+                score++
+                console.log(score)
+            }
+        }
+    }
+    // ============================= result ==================//
+    if (html.length === index) {
+        //========================= question answer display none ==============//
+        questionAnswerShow.style.display = "none";
+        // ========================= result display show =================//
+        result.style.display = "block";
+        correctQuestion.innerHTML = score;
+        totalQuestion.innerHTML = html.length;
+        var total = Math.round((score / html.length) * 100);
+        // ====================== progress bar ==================//
+        var progressDiv = document.getElementById("progress-div");
+        progressDiv.style.width = total + "%";
+        progressDiv.innerHTML = total + "%";
+        if (total < 60) {
+            progressDiv.style.backgroundColor = "red";
+            passFail.innerHTML = "Sorry You Faild"
+        }
+        else {
+            passFail.innerHTML = "Congrulation , You Passed"
+            progressDiv.style.backgroundColor = "green";
+
+        }
+    }
+    // ************************************************
+    // ================ QUESTION RENDER==================
+    // ************************************************
+
+    if (questionId) {
+        questionId.innerHTML = `
     <h3>${html[index].question}</h3>
     `
+    }
     // ************************************************
     // ================ ANSWER RENDER ==================
     // ************************************************
-ans1.innerText = `${html[index].option1}`
-ans2.innerText = `${html[index].option2}`
-ans3.innerText = `${html[index].option3}`
+    if (ans1 && ans2 && ans3) {
+        ans1.innerText = `${html[index].option1}`
+        ans2.innerText = `${html[index].option2}`
+        ans3.innerText = `${html[index].option3}`
+    }
 
 
-index++
+    index++
 }
 next()
-function  btnDisabled (){
-    nextBtn.disabled = false;    
+// ==================== next button disble function
+function btnDisabled() {
+    nextBtn.disabled = false;
 }
-
-setInterval(function (){
-     minute.innerText = min;
-     second.innerText = sec--;
-     if (min < 0){
-        min = 1
-        next()
-     }
-     if (sec < 1){
-        sec = 59;
-        min--
-     }
-
-},1000)
+// ==================== Timer question quizz
+setInterval(function () {
+    if (minute && second) {
+        minute.innerText = min;
+        second.innerText = sec--;
+        if (min < 0) {
+            min = 1
+            next()
+        }
+        if (sec < 1) {
+            sec = 59;
+            min--
+        }
+    }
+}, 1000)
 
 
