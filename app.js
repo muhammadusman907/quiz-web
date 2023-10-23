@@ -388,8 +388,12 @@ function login() {
     if (loginPassword.value.trim() !== "" && loginEmail.value.trim() !== "") {
         if (loginEmail.value.toLowerCase().match(regex)) {
             if (loginPassword.value.length < 7) {
-                alert(" passwod chota hai")
-
+                // alert(" passwod chota hai")
+                Swal.fire({
+                    icon: 'error',
+                    title: 'passwod chota hai',
+                    showConfirmButton: true,
+                  })
             }
             else {
                 console.log(loginEmail.value);
