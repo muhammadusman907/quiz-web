@@ -1,4 +1,5 @@
-let html = [
+
+var html = [
     {
         question: "What does HTML stand for?",
         option1: " Hyperlinks and Text Markup Language ",
@@ -320,6 +321,9 @@ var regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0
 // =====================login =========================
 var loginEmail = document.getElementById("login-email")
 var loginPassword = document.getElementById("login-password")
+var names = document.getElementById("name")
+// ===============================logout=================
+var logoutBtn = document.getElementById("logout")
 
 var index = 0;
 var score = 0;
@@ -373,29 +377,63 @@ function login() {
                 console.log(userDataParse)
                 if (loginEmail.value === userDataParse.signup_email) {
                     if (loginPassword.value === userDataParse.signup_password) {
-                        alert("login successfully")
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'login successfully',
+                            showConfirmButton: true,
+                          })
+                        // alert("login successfully")
                         location.href = "./quiz.html"
                     }
                     else {
-                        alert("incorrect password")
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'incorrect password',
+                            showConfirmButton: true,
+                          })
+                        // alert("incorrect password")
                     }
                 } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'email not found',
+                        showConfirmButton: true,
+                      })
                     alert("email not found")
                 }
 
             }
         }
         else {
-            alert("email incorrecrt")
+            Swal.fire({
+                icon: 'error',
+                title: 'email incorrecrt',
+                showConfirmButton: true,
+              })
+            // alert("email incorrecrt")
         }
     }
     else {
+        Swal.fire({
+            icon: 'error',
+            title: 'input not filled',
+            showConfirmButton: true,
+          })
         alert("input not filled")
     }
 }
+// ================================= logout =============================//
+ function logout(){
+      location.href = "./index.html";
+ }
+// ================================= user name===========================//
+var parsename = JSON.parse(localStorage.getItem("userData"))
+if (names){
+    names.innerText = parsename.user_name;
+}
 
 
-
+    // ===================== quiz functionalty
 function next() {
     for (var i = 0; i < radioInput.length; i++) {
 
@@ -431,6 +469,8 @@ function next() {
         correctQuestion.innerHTML = score;
         totalQuestion.innerHTML = html.length;
         var total = Math.round((score / html.length) * 100);
+        // =============================logout button show===========
+          logoutBtn.style.display = "block";
         // ====================== progress bar ==================//
         var progressDiv = document.getElementById("progress-div");
         progressDiv.style.width = total + "%";
