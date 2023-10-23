@@ -336,7 +336,12 @@ function signup() {
     if (userName.value.trim() !== "" && signupEmail.value.trim() !== "" && signupPassword.value.trim() !== "") {
         if (signupEmail.value.toLowerCase().match(regex)) {
             if (signupPassword.value.length < 7) {
-                alert(" passwod chota hai")
+                Swal.fire({
+                    icon: 'error',
+                    title: 'passwod chota hai',
+                    showConfirmButton: true,
+                  })
+                // alert("passwod chota hai")
             }
             else {
                 var obj = {
@@ -347,18 +352,34 @@ function signup() {
                 console.log(obj)
                 var userDataStr = JSON.stringify(obj);
                 localStorage.setItem("userData", userDataStr);
+                Swal.fire({
+                    icon: 'succsess',
+                    title: 'signup successfully',
+                    showConfirmButton: true,
+                  })
                 location.href = "./login.html"
+
                 // console.log(userName.value) // ================ user name
                 // console.log(signupEmail.value);// ============= user email
                 // console.log(signupPassword.value); ============ user password
             }
         }
         else {
-            alert("email incorrect")
+            Swal.fire({
+                icon: 'error',
+                title: 'email incorrect',
+                showConfirmButton: true,
+              })
+            // alert("email incorrect")
         }
     }
     else {
-        alert("not found")
+        Swal.fire({
+            icon: 'error',
+            title: 'input not filled',
+            showConfirmButton: true,
+          })
+        // alert("not found")
     }
 }
 // ========================= login ======================== //
@@ -399,7 +420,7 @@ function login() {
                         title: 'email not found',
                         showConfirmButton: true,
                       })
-                    alert("email not found")
+                    // alert("email not found")
                 }
 
             }
@@ -419,7 +440,7 @@ function login() {
             title: 'input not filled',
             showConfirmButton: true,
           })
-        alert("input not filled")
+        // alert("input not filled")
     }
 }
 // ================================= logout =============================//
